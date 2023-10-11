@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <omp.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <time.h>
 
 static unsigned long int n = 100000000;
@@ -11,7 +11,7 @@ int main (int argc, char *argv[])
   long double x,y,pi = 0.0;
   double start,end;
   
-  srand48((int)time(NULL));
+  srand(time(NULL));
 
   //===========================================//
   //------------------PARALLEL-----------------//
@@ -23,6 +23,8 @@ int main (int argc, char *argv[])
   start = omp_get_wtime();
 
   omp_set_num_threads(omp_get_max_threads());
+
+  printf("thread count: %d \n",omp_get_max_threads());
   int nthreads = omp_get_max_threads();
 
   /* you don't need to make iterators private in parallel for directives
@@ -47,11 +49,11 @@ int main (int argc, char *argv[])
 
   for (i = 0;i < n;i++)
   {
-    x = (double)drand48();
-    y = (double)drand48();
+    x = (double)rand()/RAND_MAX;
+    y = (double)rand()/RAND_MAX;
     if (x*x + y*y <= 1.0) count++; 
   }
-//#pragma omp barrier
+  #pragma omp barrier
 }
   //printf("totalCount for parallel code = %lu \n",count);
   pi = 4.0 * ((double)count / (double)n);
@@ -73,8 +75,8 @@ int main (int argc, char *argv[])
   start = omp_get_wtime();
   for (i = 0;i < n;i++)
   {
-    x = (double)drand48();
-    y = (double)drand48();
+    x = (double)rand()/RAND_MAX;
+    y = (double)rand()/RAND_MAX;
     if (x*x + y*y <= 1.0) count++;
   }
   
