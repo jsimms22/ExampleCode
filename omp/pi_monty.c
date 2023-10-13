@@ -1,13 +1,34 @@
+/*
+  This program explores using parallel methods (openmp) to evaluate potential
+    performance and optimization increases over a serial implementation.
+
+  The methodolody employs a Monte-Carlo approach to calculate pi.
+
+  The Monty Carlo method for finding Pi works by calculating:
+   * random points inside a box, with width and height of 1.
+   * Points (n) to lie on or within a quarter circle of radius 1 is
+   * known to be n = (pi * N) / 4. Therefore we need to randomly
+   * generate an x and y coordinate and apply the rule of x*x + y*y <= 1 
+
+  Test Run Output:
+    thread count: 32 
+    parallel monte-carlo pi value: 3.14153 
+    runtime of parallel code: 1.617
+    serial monte-carlo pi value: 3.14158 
+    runtime of serial code: 1.675
+*/
+
 #include <stdio.h>
 #include <omp.h>
-#include <cstdlib>
+#include <stdlib.h>
 #include <time.h>
 
 static unsigned long int n = 100000000;
 
 int main (int argc, char *argv[])
 {
-  unsigned long int count, i = 0;
+  unsigned long int count = 0;
+  //unsigned long int i;
   long double x,y,pi = 0.0;
   double start,end;
   
@@ -38,7 +59,7 @@ int main (int argc, char *argv[])
    * runtime: determined at runtime
    * auto: we let the compiler determine wht the chunksize will be
    */
-#pragma omp parellel for private(x,y) reduction(+:count) schedule(static [,50])
+#pragma omp parellel for private(x,y) reduction(+:count) schedule(runtime/*static [,50]*/)
 {
   /* The Monty Carlo method for finding Pi works by calculating
    * random points inside a box, with width and height of 1.
@@ -47,8 +68,7 @@ int main (int argc, char *argv[])
    * generate an x and y coordinate and apply the rule of x*x + y*y <= 1 
    */
 
-  for (i = 0;i < n;i++)
-  {
+  for (unsigned long int i = 0;i < n;i++) {
     x = (double)rand()/RAND_MAX;
     y = (double)rand()/RAND_MAX;
     if (x*x + y*y <= 1.0) count++; 
@@ -73,8 +93,7 @@ int main (int argc, char *argv[])
   //===========================================//
 
   start = omp_get_wtime();
-  for (i = 0;i < n;i++)
-  {
+  for (unsigned long int i = 0;i < n;i++) {
     x = (double)rand()/RAND_MAX;
     y = (double)rand()/RAND_MAX;
     if (x*x + y*y <= 1.0) count++;
