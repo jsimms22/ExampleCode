@@ -28,7 +28,6 @@ static unsigned long int n = 100000000;
 int main (int argc, char *argv[])
 {
   unsigned long int count = 0;
-  //unsigned long int i;
   long double x,y,pi = 0.0;
   double start,end;
   
