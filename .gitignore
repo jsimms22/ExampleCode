@@ -29,6 +29,7 @@
 /rendering/*.out
 /rendering/*.exe
 /rendering/*.o
+/rendering/*.svg
 
 *.out
 *.exe
