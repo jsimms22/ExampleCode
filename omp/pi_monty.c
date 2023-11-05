@@ -57,7 +57,7 @@ int main (int argc, char *argv[])
    * runtime: determined at runtime
    * auto: we let the compiler determine wht the chunksize will be
    */
-#pragma omp parallel for private(x,y) reduction(+:count) schedule(auto) 
+#pragma omp parallel for private(x,y) reduction(+:count) //schedule(auto) 
   /* The Monty Carlo method for finding Pi works by calculating
    * random points inside a box, with width and height of 1.
    * Points (n) to lie on or within a quarter circle of radius 1 is
