@@ -10,12 +10,11 @@
    * known to be n = (pi * N) / 4. Therefore we need to randomly
    * generate an x and y coordinate and apply the rule of x*x + y*y <= 1 
 
-  Test Run Output:
-    thread count: 32 
-    parallel monte-carlo pi value: 3.14153 
-    runtime of parallel code: 1.617
-    serial monte-carlo pi value: 3.14158 
-    runtime of serial code: 1.675
+  thread count: 32
+    parallel monte-carlo pi value: 3.14015 
+    runtime of parallel code: 0.0880001
+    serial monte-carlo pi value: 3.14138 
+    runtime of serial code: 1.574
 */
 
 #include <stdio.h>
@@ -58,8 +57,7 @@ int main (int argc, char *argv[])
    * runtime: determined at runtime
    * auto: we let the compiler determine wht the chunksize will be
    */
-#pragma omp parellel for private(x,y) reduction(+:count) schedule(runtime/*static [,50]*/)
-{
+#pragma omp parallel for private(x,y) reduction(+:count) schedule(auto) 
   /* The Monty Carlo method for finding Pi works by calculating
    * random points inside a box, with width and height of 1.
    * Points (n) to lie on or within a quarter circle of radius 1 is
@@ -73,7 +71,7 @@ int main (int argc, char *argv[])
     if (x*x + y*y <= 1.0) count++; 
   }
   #pragma omp barrier
-}
+
   //printf("totalCount for parallel code = %lu \n",count);
   pi = 4.0 * ((double)count / (double)n);
   

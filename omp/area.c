@@ -2,11 +2,11 @@
   This program explores using parallel methods (openmp) to evaluate potential
     performance and optimization increases over a serial implementation.
 
-  The methodolody employs a simply integration method to calculate pi.
+  The methodolody employs a simple integration method to calculate pi.
 
   Test Run Output:
     pi = 3.14159
-    parallel time = 0.0120001 seconds
+    parallel time = 0.0110002 seconds
     serial pi = 3.14159
     serial time = 0.15 seconds
 */
@@ -48,7 +48,7 @@ int main()
     // then after the loop ends it adds the local copies into a
     // global variable of the same name.
 
-  #pragma omp parallel for private(x) reduction(+:sum)
+  #pragma omp parallel for private(x) reduction(+:sum) //schedule(auto)
     for (register unsigned long int i = 0; i < num_steps;i++) {
       x = (i+0.5)*step;
 
