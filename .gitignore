@@ -31,6 +31,12 @@
 /rendering/*.o
 /rendering/*.svg
 
+/addscan/*.out
+/addscan/*.exe
+/addscan/*.o
+
 *.out
 *.exe
 *.o
+*.txt
+*.dat
