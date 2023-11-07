@@ -1,0 +1,1 @@
+There is an attempt to re-learn some parallelismm approaches with OpenMP. My current understanding is insufficient to separate compiler loop optimizations to identify differences between parallel and serial code. I am getting loop times of 0 for both implementations. I suspect there are some low level optimizations g++ is doing that are not affected by using cflag -O0
