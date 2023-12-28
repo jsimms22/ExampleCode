@@ -1,11 +1,10 @@
 #include<cstdlib>
 #include<iostream>
 
-class Node
+struct Node // or class with public:
 {
-public:
     char ch;
-    Node* next;
+    Node* next; // next node in list or NULL
 };
 
 class LinkedList
