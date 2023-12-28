@@ -1,5 +1,5 @@
 /*
-    Example code for simple singly linked list
+    Example code for simple singly linked list, no dedicated class
 */
 
 #include<cstdlib>

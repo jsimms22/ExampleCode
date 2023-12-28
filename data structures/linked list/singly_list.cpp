@@ -1,3 +1,7 @@
+/*
+    Example code for a singly linked list
+*/
+
 #include<cstdlib>
 #include<iostream>
 
