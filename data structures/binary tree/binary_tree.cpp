@@ -38,6 +38,10 @@ void BinaryTree::insert(int _value)
 {
     Node* temp = new Node{_value,NULL,NULL,NULL};
 
+    // need to handle cases:
+    // -root is null
+    // -traverse and find appropriate child to place new node
+    // -deteremine if a swap between root and temp is required
     if (this->m_root == NULL) {
         this->m_root = temp;
     } else {
@@ -49,5 +53,6 @@ int main()
 {
     BinaryTree* btree = new BinaryTree(10);
 
+    
 
 }
