@@ -18,6 +18,7 @@ public:
     void insert(char ch);
     void prepend(char ch);
     void print_list();
+    void delete_list();
 
     // char get_char(Node* n) const { return n->ch; }
     Node* get_head() const { return head; }
@@ -73,6 +74,17 @@ bool LinkedList::search(Node* head, char c)
     return search(head->next,c);
 }
 
+void LinkedList::delete_list() 
+{
+    if (this->head == NULL) {
+        return;
+    }
+    Node* x = this->head;
+    head = head->next;
+    delete(x);
+    return delete_list();
+}
+
 void tests(LinkedList* list)
 {
     list->insert('b');
@@ -89,6 +101,9 @@ void tests(LinkedList* list)
     } else {
         std::cout << key << " is NOT a part of the list\n";
     }
+
+    list->delete_list();
+    list->print_list();
 }
 
 int main()
