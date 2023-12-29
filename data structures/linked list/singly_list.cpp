@@ -19,6 +19,10 @@ public:
     void prepend(char ch);
     void print_list();
 
+    // char get_char(Node* n) const { return n->ch; }
+    Node* get_head() const { return head; }
+    bool search(Node* head, char c);
+
 private:
     Node* head;
 };
@@ -60,17 +64,37 @@ void LinkedList::print_list()
     std::cout << '\n';
 }
 
-int main()
+bool LinkedList::search(Node* head, char c)
+// O(N) recursive seach algorithm
 {
-    LinkedList* list = new LinkedList('a');
+    if (head == NULL) { return false; }
+    if (head->ch == c) { return true; }
 
+    return search(head->next,c);
+}
+
+void tests(LinkedList* list)
+{
     list->insert('b');
     list->insert('c');
     list->print_list();
 
     list->prepend('z');
     list->print_list();
-    
+
+    char key = 'd';
+    bool result = list->search(list->get_head(),key);
+    if (result == true) { 
+        std::cout << key << " is a part of the list\n";
+    } else {
+        std::cout << key << " is NOT a part of the list\n";
+    }
+}
+
+int main()
+{
+    LinkedList* list = new LinkedList('a');
+    tests(list);
     delete(list);
 
     return 0;
