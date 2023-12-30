@@ -42,35 +42,30 @@ void BinaryTree::insert(Node* root, int _value)
     Node* temp = new Node{_value,NULL,NULL,NULL};
     Node* ptr = root;
     // need to handle cases:
-    // -root is null
-    // -traverse and find appropriate child to place new node
-    // -deteremine if a swap between root and temp is required
+    // -root is null (DONE)
+    // -traverse and find appropriate child to place new node (DONE)
+    // -deteremine if a swap between root and temp is required (TODO)
     if (root == NULL) {
         root = temp;
-        //delete(temp);
         std::cout << "root = temp\n";
         return;
     } else if (_value <= root->m_value) {
         if (root->m_left == NULL) {
             root->m_left = temp;
-            //delete(temp);
             std::cout << "root->m_left = temp\n";
             return;
         } else {
             ptr = root->m_left;
-            //delete(temp);
             std::cout << "ptr = left, calling insert()\n";
             insert(ptr,_value);
         }
     } else if (_value > root->m_value) {
         if (root->m_right == NULL) {
             root->m_right = temp;
-            //delete(temp);
             std::cout << "root->m_right = temp\n";
             return;
         } else {
             ptr = root->m_right;
-            //delete(temp);
             std::cout << "ptr = right, calling insert()\n";
             insert(ptr,_value);
         }
