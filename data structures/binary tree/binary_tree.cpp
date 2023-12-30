@@ -8,7 +8,7 @@
 #include<iostream>
 #include<iomanip>
 
-#define COUNT 10
+constexpr int COUNT = 10;
 
 struct Node // or class with public:
 {
@@ -37,18 +37,21 @@ private:
 };
 
 void BinaryTree::insert(Node* root, int _value)
-// 
+// need to handle cases:
+// -root is null (DONE)
+// -traverse and find appropriate child to place new node (DONE)
+// -deteremine if a swap between root and temp is required (TODO)
 {
     Node* temp = new Node{_value,NULL,NULL,NULL};
     Node* ptr = root;
-    // need to handle cases:
-    // -root is null (DONE)
-    // -traverse and find appropriate child to place new node (DONE)
-    // -deteremine if a swap between root and temp is required (TODO)
+
+    // if root does not exist, set root to temp
     if (root == NULL) {
         root = temp;
         std::cout << "root = temp\n";
         return;
+    // if new value is less than or equal to, set l_child to temp
+    // or, dive deeper into left branch
     } else if (_value <= root->m_value) {
         if (root->m_left == NULL) {
             root->m_left = temp;
@@ -59,6 +62,8 @@ void BinaryTree::insert(Node* root, int _value)
             std::cout << "ptr = left, calling insert()\n";
             insert(ptr,_value);
         }
+    // if new value is greater than, set r_child to temp
+    // or, dive deeper into right branch
     } else if (_value > root->m_value) {
         if (root->m_right == NULL) {
             root->m_right = temp;
@@ -69,6 +74,7 @@ void BinaryTree::insert(Node* root, int _value)
             std::cout << "ptr = right, calling insert()\n";
             insert(ptr,_value);
         }
+    // delete temp and return
     } else {
         delete(temp);
         std::cout << "returning\n";
