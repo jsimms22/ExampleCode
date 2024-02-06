@@ -40,3 +40,5 @@
 *.o
 *.txt
 *.dat
+
+.vscode/*.json
