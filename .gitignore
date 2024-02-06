@@ -35,10 +35,12 @@
 /addscan/*.exe
 /addscan/*.o
 
+/lambda/.vscode/
+
 *.out
 *.exe
 *.o
 *.txt
 *.dat
-
 .vscode/*.json
+
