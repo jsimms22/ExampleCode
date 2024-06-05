@@ -1,0 +1,1 @@
+For linking to the windows winsock2 dll with gnu compilers we simply need to add -lws2_32 to handle the linking.
