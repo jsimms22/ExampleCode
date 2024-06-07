@@ -12,55 +12,66 @@
 #include <pmmintrin.h>
 #include <emmintrin.h>
 
-constexpr size_t LENGTH = 8;
+// constexpr size_t LENGTH = 8;
 
-void fill_matrix(std::vector<bool>& v);
-
-template <typename UNIT>
-void fill_matrix(const UNIT ALPHA, std::vector<UNIT>& v);
+void fill_matrix(size_t LENGTH, std::vector<bool>& v);
 
 template <typename UNIT>
-long long int naiveVVM(UNIT& a, std::vector<UNIT>& v1, std::vector<UNIT>& v2, std::vector<bool>& v3);
+void fill_matrix(size_t LENGTH, const UNIT ALPHA, std::vector<UNIT>& v);
 
 template <typename UNIT>
-long long int unrolledVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2, std::vector<bool>& v3);
+void naiveVVM(UNIT& a, std::vector<UNIT>& v1, std::vector<UNIT>& v2, std::vector<bool>& v3);
 
 template <typename UNIT>
-long long int pipelineVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2, std::vector<bool> &v3);
+void unrolledVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2, std::vector<bool>& v3);
 
-int main() 
+template <typename UNIT>
+void pipelineVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2, std::vector<bool> &v3);
+
+int main(int argc, char* argv[]) 
 {
+    if (argc != 2) { return 1; }
+    size_t LENGTH = std::stoi(argv[1]);
     float a = 0.0f;
     std::vector<float> b, c;
     std::vector<bool> d;
-    fill_matrix(1.0f,b);
-    fill_matrix(1.0f,c);
-    fill_matrix(d);
+    fill_matrix(LENGTH, 1.0f, b);
+    fill_matrix(LENGTH, 1.0f, c);
+    fill_matrix(LENGTH, d);
 
     std::cout << "Beginning naiveVVM" << std::endl;
-    auto duration = naiveVVM(a,b,c,d);
+    auto startTime = std::chrono::high_resolution_clock::now();
+    naiveVVM(a,b,c,d);
+    auto endTime = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime);
     std::cout << "solution from function naiveVVM: " << a << std::endl;
-    std::cout << "Time taken by function: " << duration << " ms" << std::endl;
+    std::cout << "Time taken by function: " << duration.count() << " ns" << std::endl;
 
     std::cout << std::endl;
 
     std::cout << "Beginning unrolledVVM" << std::endl;
-    duration = unrolledVVM(a,b,c,d);
+    startTime = std::chrono::high_resolution_clock::now();
+    unrolledVVM(a,b,c,d);
+    endTime = std::chrono::high_resolution_clock::now();
+    duration = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime);
     std::cout << "solution from function unrolledVVM: " << a << std::endl;
-    std::cout << "Time taken by function: " << duration << " ms" << std::endl;
+    std::cout << "Time taken by function: " << duration.count() << " ns" << std::endl;
 
     std::cout << std::endl;
 
     std::cout << "Beginning pipelineVVM" << std::endl;
-    duration = pipelineVVM(a,b,c,d);
+    startTime = std::chrono::high_resolution_clock::now();
+    pipelineVVM(a,b,c,d);
+    endTime = std::chrono::high_resolution_clock::now();
+    duration = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime);
     std::cout << "solution from function pipelineVVM: " << a << std::endl;
-    std::cout << "Time taken by function: " << duration << " ms" << std::endl;
+    std::cout << "Time taken by function: " << duration.count() << " ns" << std::endl;
 
 }
 
-void fill_matrix(std::vector<bool>& v) 
+void fill_matrix(size_t LENGTH, std::vector<bool>& v) 
 {
-    srand(1);
+    srand(0);
     for(std::size_t i = 0; i < LENGTH; ++i) {
         // rand() >= 0, ensures we do not solve at compile time
         v.push_back(rand() >= 0);
@@ -68,7 +79,7 @@ void fill_matrix(std::vector<bool>& v)
 }
 
 template <typename UNIT>
-void fill_matrix(const UNIT ALPHA, std::vector<UNIT>& v) 
+void fill_matrix(size_t LENGTH, const UNIT ALPHA, std::vector<UNIT>& v) 
 {
     for(std::size_t i = 0; i < LENGTH; ++i) {
         v.push_back(ALPHA*(rand() % 10));
@@ -76,31 +87,23 @@ void fill_matrix(const UNIT ALPHA, std::vector<UNIT>& v)
 }
 
 template <typename UNIT>
-long long int naiveVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2, std::vector<bool> &v3)
+void naiveVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2, std::vector<bool> &v3)
 // inefficient use of the cpu, it can handle more instructions simultaneously
 {
     a = 0.0;
-    auto startTime = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < v1.size(); ++i) {
         if (v3[i]) {
             a += v1[i]*v2[i];
         }
     }
-    auto endTime = std::chrono::high_resolution_clock::now();
-    std::chrono::milliseconds duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-    return duration.count();
 }
 
 template <typename UNIT>
-long long int unrolledVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2, std::vector<bool> &v3)
+void unrolledVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2, std::vector<bool> &v3)
 // ~2x increase of naive, loop unrolling, potential data dependencies
 {
-    a = 0.0;
-    UNIT a1 = 0;
-    UNIT a2 = 0;
-    size_t i = 0;
+    a = 0.0; UNIT a1 = 0; UNIT a2 = 0; size_t i = 0;
     size_t unrolled_itr = 2; // could be a function input or dynamically identified
-    auto startTime = std::chrono::high_resolution_clock::now();
     for (; i < (v1.size() - (unrolled_itr - 1)); i += unrolled_itr) {
         if (v3[i]) {
             a1 += v1[i]*v2[i];
@@ -119,13 +122,10 @@ long long int unrolledVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2,
             }
         }
     }
-    auto endTime = std::chrono::high_resolution_clock::now();
-    std::chrono::milliseconds duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-    return duration.count();
 }
 
 template <typename UNIT>
-long long int pipelineVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2, std::vector<bool> &v3)
+void pipelineVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2, std::vector<bool> &v3)
 // pipelining: a += (v1[i] + v2[i]) * (v1[i] - v2[i])
 // using SIMD instructions to load simulatenous ops into registers
 // could be further optimized with handling the add/sub/multi on different cores
@@ -133,9 +133,7 @@ long long int pipelineVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2,
     a = 0.0;
     // Ensure the size is a multiple of 8 for SIMD processing
     std::size_t simd_end = v1.size() - (v1.size() % 8);
-
     // Use SIMD to process 8 elements at a time
-    auto startTime = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < simd_end; i += 8) {
         if (v3[i]) {
             __m256 v1_part = _mm256_loadu_ps(&v1[i]);
@@ -159,7 +157,4 @@ long long int pipelineVVM(UNIT& a, std::vector<UNIT> &v1, std::vector<UNIT> &v2,
             a += (v1[i] + v2[i]) * (v1[i] - v2[i]);
         }
     }
-    auto endTime = std::chrono::high_resolution_clock::now();
-    std::chrono::milliseconds duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-    return duration.count();
 }
