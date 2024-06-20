@@ -66,13 +66,6 @@
         "locale": "cpp",
         "regex": "cpp",
         "xlocbuf": "cpp",
-        "xlocmes": "cpp",
-        "charconv": "cpp",
-        "chrono": "cpp",
-        "format": "cpp",
-        "forward_list": "cpp",
-        "list": "cpp",
-        "ratio": "cpp",
-        "xhash": "cpp"
+        "xlocmes": "cpp"
     }
 }
