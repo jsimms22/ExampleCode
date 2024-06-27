@@ -12,11 +12,17 @@ public:
 };
 
 template <typename UNIT>
+class List;
+
+template <typename UNIT>
+std::ostream& operator<<(std::ostream &os, const List<UNIT> &list);
+
+template <typename UNIT>
 class List
 {
-public:
+private:
     std::unique_ptr<Node<UNIT>> m_head;
-    
+public:
     List() :m_head{nullptr} { }
     void push(UNIT value) 
     {
@@ -35,6 +41,7 @@ public:
             m_head = std::move(m_head->m_next);
         }
     }
+    friend std::ostream& operator<< <UNIT>(std::ostream &os, const List<UNIT> &list);
     ~List() { clean(); }
 };
 
@@ -49,8 +56,6 @@ std::ostream& operator<<(std::ostream &os, const List<UNIT> &list)
 
     return os;
 }
-
-
 
 int main()
 {
