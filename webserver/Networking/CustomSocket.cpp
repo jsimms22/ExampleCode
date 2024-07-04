@@ -8,8 +8,6 @@ hde::ClientSocket::ClientSocket(int ipDomain, int socketType, int protocol)
     this->m_hints.ai_family = ipDomain; // AF_INET for IPv4, AF_NET6 for IPv6, AF_UNSPEC for both (fails more easily)
     this->m_hints.ai_socktype = socketType; // SOCK_STREAM, stream socket needed for TCP
     this->m_hints.ai_protocol = protocol; // IPPROTO_TCP
-
-    this->m_connectSocket = INVALID_SOCKET;
     this->m_result = NULL;
 }
 

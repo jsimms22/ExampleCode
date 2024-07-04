@@ -15,9 +15,9 @@ namespace hde
             //std::string m_port;
             //std::string m_address;
             WSADATA m_wsaData;
-            addrinfo* m_result;
             addrinfo m_hints;
-            SOCKET m_connectSocket;
+            addrinfo* m_result = nullptr;
+            SOCKET m_connectSocket = INVALID_SOCKET;
 
         public:
             ClientSocket(int ipDomain,int socketType,int protocol);

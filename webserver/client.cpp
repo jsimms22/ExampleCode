@@ -5,7 +5,7 @@ const std::string PORT {"27015"};
 
 int main()
 {
-    addrinfo *ptr;
+    addrinfo* ptr;
     int iResult = SOCKET_ERROR;
     // Initialize Winsock
     hde::ClientSocket client{AF_UNSPEC, SOCK_STREAM, IPPROTO_TCP};
@@ -13,7 +13,7 @@ int main()
     client.getAddrInfo(IP, PORT);
 
     // Attempt to connect to an address until one succeeds
-    for(ptr = client.getResult(); ptr != NULL ;ptr=ptr->ai_next) {
+    for(ptr = client.getResult(); ptr != nullptr; ptr= ptr->ai_next) {
         // Create a SOCKET for connecting to server
         // Connect to server
         iResult = client.tryConnection(ptr);
