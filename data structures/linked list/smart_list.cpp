@@ -11,9 +11,11 @@ public:
     ~Node() { std::cout << "Destroyed Node with data: " << this->m_data << std::endl; }
 };
 
+// forward declaration
 template <typename UNIT>
 class List;
 
+// must forward declare to use friend on a template overload
 template <typename UNIT>
 std::ostream& operator<<(std::ostream &os, const List<UNIT> &list);
 
