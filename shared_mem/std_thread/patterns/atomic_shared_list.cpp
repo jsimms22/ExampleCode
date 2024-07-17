@@ -30,6 +30,8 @@ void push_front(size_t x)
     while (!head.compare_exchange_strong(old_h,new_n));
 }
 
+/* could add an atomic queue add to load many values more than your thread count */
+
 // print list
 void print_list(const std::shared_ptr<Node>& head)
 {
