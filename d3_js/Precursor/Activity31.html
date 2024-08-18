@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            function f1() {
+                var data = [1,2,3,4];
+                document.getElementById(f1txt).innerHTML = data;
+            }
+        </script>
+        <script type="myFunction2">
+            var data2 = [1,2,3,4].map(function (d) {d * 2});
+            // alternate syntax (newer)
+            // d refers to the data in the array
+            // ex: 1*2, 2*2, 3*2, 4*2
+        </script>
+        <script type="myFunction3">
+            var data3 = [1,2,3,4].map((d,i) => i * 2);
+            // we get some data for "free"
+            // d refers to the data in the array
+            // i refers to an index of the array
+            // ex: 0*2, 1*2, 2*2, 3*2
+        </script>
+        <script type="myFunction4">
+            var data4 = [1,2,3,4].map((d,i) => i * 3).filter((d) => d > 2);
+            // chaining functions
+            // filter will filter out the elements that are not greater than 2
+        </script>
+    </head>
+
+    <body >
+        <h1>
+            the array is: <span id="f1txt"></span>
+        </h1>
+        <h1>
+            the array is: 
+            <script type="myFunction2">
+                document.write(data2)
+            </script>
+        </h1>
+        <h1>
+            the array is: 
+            <script type="myFunction3">
+                document.write(data3)
+            </script>
+        </h1>
+        <h1>
+            the array is:
+            <script type="myFunction4">
+                document.write(data4)
+            </script>
+        </h1>
+    </body>
+</html>

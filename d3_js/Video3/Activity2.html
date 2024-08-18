@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div id="container"></div>
+
+    <!-- type="module" allows the script to use import/export -->
+    <script type="module">
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.8.5/+esm";
+        import * as htl from "https://cdn.jsdelivr.net/npm/htl@0.3.1/+esm";
+
+        const width = 500;
+        const height = 100;
+        const margin = {top: 10, bottom: 30, left: 10, right: 10};
+
+        var mydata = [0,10,5,20];
+
+        /* first svg */
+        const svg1 = d3.create("svg")
+                       .attr("width", width + margin.left + margin.right)
+                       .attr("height", height + margin.top + margin.bottom);
+        const g1 = svg1.append("g")
+                       .attr("transform", `translate(${margin.left},${margin.top})`);
+        const x = d3.scaleLinear()
+                    .domain([0,3])
+                    .range([0,width]);
+        const y = d3.scaleLinear()
+                    .domain(d3.extent(mydata))
+                    .range([height,0]);
+        const line = d3.line()
+                       .x((d,i)=>x(i))
+                       .y((d)=>y(d));
+        g1.append("path").datum(mydata).attr("d",line);
+
+        /* second svg */
+        const svg2 = d3.create("svg")
+                      .attr("width", width + margin.left + margin.right)
+                      .attr("height", height + margin.top + margin.bottom);
+        const g2 = svg2.append("g")
+                       .attr("transform", `translate(${margin.left},${margin.top})`);
+        g2.append("path").datum(mydata).attr("d",line).style("stroke","#000").style("fill","none");
+        
+        // append the svgs to the desired DOM element (in this case, the #container div)
+        // .append() is useful instead of appendChild() when we want to add multiple objects 
+        // to a single element, or objects that are not necessarily nodes
+        document.getElementById('container').append(svg1.node(),svg2.node());
+    </script>
+</body>
+</html>

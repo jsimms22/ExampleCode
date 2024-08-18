@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div id="container"></div>
+
+    <!-- type="module" allows the script to use import/export -->
+    <script type="module">
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.8.5/+esm";
+        import * as htl from "https://cdn.jsdelivr.net/npm/htl@0.3.1/+esm";
+
+        document.getElementById('container').append(svg.node());
+    </script>
+</body>
+</html>

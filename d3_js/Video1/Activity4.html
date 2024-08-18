@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>D3 and HTL Example</title>
+</head>
+<body>
+    <div id="container"></div>
+
+    <script type="module">
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.8.5/+esm";
+        import * as htl from "https://cdn.jsdelivr.net/npm/htl@0.3.1/+esm";
+
+        const htmlContent = htl.html`<div>
+            <p>First Paragraph</p>
+            <p>Second Paragraph</p>
+            <p>Third Paragraph</p>
+        </div>`;
+
+        d3.select(htmlContent)
+          .selectAll("p")
+          .data([1,2,3])    // binding data to elements of our div
+          .filter(function(d,i) { return i === 1; })
+          .style("color","red")
+          .text(function(d) { return d; });
+        
+        // append the htmlContent to the desired DOM element (in this case, the #container div)
+        document.getElementById('container').appendChild(htmlContent);
+    </script>
+</body>
+</html>

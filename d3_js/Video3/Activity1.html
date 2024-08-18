@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div id="container"></div>
+
+    <script type="module">
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.8.5/+esm";
+        import * as htl from "https://cdn.jsdelivr.net/npm/htl@0.3.1/+esm";
+
+        // svgs will auto complete a supposed shape and fill the supposed shape
+        // this does not actually draw the 3rd line
+        const svg1 = htl.html
+        `<svg width=300 height=200 style="border: 1px solid #ccc">
+            <path d='M150,0L300,200,L0,200'
+                style="stroke: #000">
+            </path>
+        </svg>`;
+
+        // here we can clearly see the third line doesn't actually exist
+        const svg2 = htl.html
+        `<svg width=300 height=200 style="border: 1px solid #ccc">
+            <path d='M150,0L300,200,L0,200'
+                style="stroke: #000; stroke-width: 2px; fill: none">
+            </path>
+        </svg>`;
+
+        // or we can use the Z command to actually draw the line
+        const svg3 = htl.html
+        `<svg width=300 height=200 style="border: 1px solid #ccc">
+            <path d='M150,0L300,200,L0,200,Z'
+                style="stroke: #000; stroke-width: 2px; fill: none">
+            </path>
+        </svg>`;
+        
+        // append the svgs to the desired DOM element (in this case, the #container div)
+        // .append() is useful instead of appendChild() when we want to add multiple objects 
+        // to a single element, or objects that are not necessarily nodes
+        document.getElementById('container').append(svg1,svg2,svg3);
+    </script>
+</body>
+</html>

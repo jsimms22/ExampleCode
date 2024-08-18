@@ -1,0 +1,45 @@
+<div>
+    <h2>using [1,2,3,4] where we simply print it</h2>
+    <p id="demo0">This is a demonstration.</p>
+    <button type="button" onclick="printArray([1,2,3,4],'demo0')">Ex 0</button>
+</div>
+
+<div>
+    <h2>using [1,2,3,4] where we use .map(function(d) { return d *2; })</h2>
+    <p id="demo1">This is a demonstration.</p>
+    <button type="button" onclick="printArray([1,2,3,4].map(function(d) { return d * 2; }),'demo1')">Ex 1</button>
+</div>
+
+<div>
+    <h2>using [1,2,3,4] where we use .map(d,i) => i*2</h2>
+    <p id="demo2">This is a demonstration.</p>
+    <button type="button" onclick="printArray([1,2,3,4].map((d,i) => i * 2),'demo2')">Ex 2</button>
+</div>
+
+<div>
+    <h2>using [1,2,3,4] where we use .map(d,i) => i*3 and .filter anything not greater than 2</h2>
+    <p id="demo3">This is a demonstration.</p>
+    <button type="button" onclick="printArray([1,2,3,4].map((d,i) => i * 3).filter((d) => d > 2),'demo3')">Ex 3</button>
+</div>
+
+<script>
+    // map function will iterate across all elements in array
+    [1,2,3,4].map(function (d) {d * 2}); 
+    // alternate syntax (newer)
+    // d refers to the data in the array
+    // ex: 1*2, 2*2, 3*2, 4*2
+
+    [1,2,3,4].map((d,i) => i * 2);
+    // we get some data for "free"
+    // d refers to the data in the array
+    // i refers to an index of the array
+    // ex: 0*2, 1*2, 2*2, 3*2
+
+    [1,2,3,4].map((d,i) => i * 3).filter((d) => d > 2);
+    // chaining functions
+    // filter will filter out the elements that are not greater than 2
+
+    function printArray(data,demo) {
+        document.getElementById(demo).innerHTML = data;
+    }
+</script>
